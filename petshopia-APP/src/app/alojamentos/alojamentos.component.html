@@ -1,0 +1,27 @@
+<div action="">
+  <div class="form-group mb-2">
+    <input type="text" class="form-control mr-2" placeholder="Perquisar alojamento por estado"
+    [(ngModel)]="filtroAlojamento">
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead class="thead-dark text-center">
+    <tr>
+      <th>Nome Alojamento</th>
+      <th>Situação</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    <tr *ngFor="let alojamento of alojamentosFiltrados">
+      <td>Alojamento {{alojamento.alojamentoId}}</td>
+      <td>{{alojamento.estadoAlojamento.descricao}}</td>
+
+      <!-- <td *ngIf="alojamento.animal !== null">{{alojamento.animal.nome}}</td>
+      <td *ngIf="alojamento.animal === null">-</td>
+      <td *ngIf="alojamento.animal !== null">{{alojamento.animal.dono.nome}}</td>
+      <td *ngIf="alojamento.animal === null">-</td> -->
+    </tr>
+  </tbody>
+
+</table>

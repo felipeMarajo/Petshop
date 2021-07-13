@@ -1,0 +1,15 @@
+.collapsedivs {
+    width: 25%;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.item1 { grid-area: left; }
+.item2 { grid-area: right; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:'left right';
+  grid-gap: 10px;
+  padding: 10px;
+}
