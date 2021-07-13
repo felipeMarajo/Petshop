@@ -61,14 +61,30 @@ namespace petshopia_API.Controllers
             }
         }
 
+        [HttpPut("ultimoanimal")]
+        public async Task<IActionResult> GetUltimoAnimalAdicionado(){
+            
+            try
+            {
+                Animal ultimoAnimalInserido = await contextAnimal.GetUltimoAnimalInserido();
+                await atualizarAlojamentoComIds(ultimoAnimalInserido.IdAlojamento, ultimoAnimalInserido.EstadoSaudeId, ultimoAnimalInserido.AnimalId);
+            
+                if(await contextAnimal.SaveAsync())
+                    return Ok("Alojamento atualizado"); 
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            return BadRequest("Ocorreu um erro");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Post(Animal animal){
 
             try{
                 contextAnimal.Create(animal);
-
-                await atualizarAlojamentoComIds(animal.IdAlojamento, animal.EstadoSaudeId, animal.AnimalId);
 
                 if(await contextAnimal.SaveAsync())
                     return Ok(animal);    
@@ -90,7 +106,6 @@ namespace petshopia_API.Controllers
                     return NotFound("Animal não encontrado");
 
                 if(animalBanco.IdAlojamento != animal.IdAlojamento){
-                    Console.WriteLine("Passou 2-");
                     // Libera alojamento
                     var alojamentoAntigo = await contextAnimal.GetAlojamentoPorAnimalIdAsync(animalId);
                     alojamentoAntigo.EstadoAlojamentoId = 1;
@@ -98,21 +113,8 @@ namespace petshopia_API.Controllers
                     contextAnimal.Update(alojamentoAntigo);
                 }
 
+                // Ocupar Novo alojamento
                await atualizarAlojamentoComIds(animal.IdAlojamento, animal.EstadoSaudeId, animalId);
-                    //Ocupa novo alojamento
-                // var alojamentoNovo = await contextAnimal.GetAlojamentoPorIdAsync(animal.IdAlojamento);
-
-                // //(Alojamento) Livre = 1 | Ocupado = 2 | Esperando dono = 3
-                // //(Animal) Em tratamenot = 1 | Recuperando = 2 | Recuperado = 3
-                // var estadoAlojamentoNovo = (animal.EstadoSaudeId == 1 || animal.EstadoSaudeId == 2) ? 2 : 3;
-                
-                // alojamentoNovo.EstadoAlojamentoId = estadoAlojamentoNovo;
-                // alojamentoNovo.AnimalId = animal.AnimalId;
-
-                // string jsonString2 = JsonSerializer.Serialize(alojamentoNovo);
-                // Console.WriteLine(jsonString2);
-
-                // contextAnimal.Update(alojamentoNovo);
                     
                 contextAnimal.Update(animal);
 
@@ -129,7 +131,7 @@ namespace petshopia_API.Controllers
             }
         }
 
-        private async Task atualizarAlojamentoComIds(int alojamento, int estadoSaude, int animal){
+        private async Task atualizarAlojamentoComIds(int alojamento, int estadoSaude, int animalId){
             var alojamentoNovo = await contextAnimal.GetAlojamentoPorIdAsync(alojamento);
 
             //(Alojamento) Livre = 1 | Ocupado = 2 | Esperando dono = 3
@@ -137,7 +139,7 @@ namespace petshopia_API.Controllers
             var estadoAlojamentoNovo = (estadoSaude == 1 || estadoSaude == 2) ? 2 : 3;
             
             alojamentoNovo.EstadoAlojamentoId = estadoAlojamentoNovo;
-            alojamentoNovo.AnimalId = animal;
+            alojamentoNovo.AnimalId = animalId;
 
             contextAnimal.Update(alojamentoNovo);
 
@@ -157,12 +159,6 @@ namespace petshopia_API.Controllers
                 Alojamento alojamentoBanco = await contextAnimal.GetAlojamentoPorIdAsync(animalBanco.IdAlojamento);
                 alojamentoBanco.AnimalId = null;
                 alojamentoBanco.EstadoAlojamentoId = 1;
-
-                string jsonString = JsonSerializer.Serialize(alojamentoBanco);
-                Console.WriteLine(jsonString);
-
-                // if(await contextAnimal.SaveAsync())
-                //     Console.WriteLine("Alojamento deletado");
 
                 var dono = animalBanco.Dono;
                 contextAnimal.Delete(dono);
@@ -188,14 +184,8 @@ namespace petshopia_API.Controllers
             {
                 Alojamento alojamentoBanco = await contextAnimal.GetAlojamentoPorIdAsync(id);
 
-                string jsonString = JsonSerializer.Serialize(alojamentoBanco);
-                Console.WriteLine(jsonString);
-
                 alojamentoBanco.EstadoAlojamentoId = 1;
                 alojamentoBanco.AnimalId = null;
-
-                string jsonString2 = JsonSerializer.Serialize(alojamentoBanco);
-                Console.WriteLine(jsonString2);
 
                 contextAnimal.Update(alojamentoBanco);
                 if(await contextAnimal.SaveAsync())
@@ -229,20 +219,6 @@ namespace petshopia_API.Controllers
             return BadRequest("Erro ao atualizar o alojamento");
         }
 
-        // Antiga versão
-        // private async Task atualizarAlojamento(Animal animal){
-        //     var alojamentoNovo = await contextAnimal.GetAlojamentoPorIdAsync(animal.IdAlojamento);
-
-        //     //(Alojamento) Livre = 1 | Ocupado = 2 | Esperando dono = 3
-        //     //(Animal) Em tratamenot = 1 | Recuperando = 2 | Recuperado = 3
-        //     var estadoAlojamentoNovo = (animal.EstadoSaudeId == 1 || animal.EstadoSaudeId == 2) ? 2 : 3;
-            
-        //     alojamentoNovo.EstadoAlojamentoId = estadoAlojamentoNovo;
-        //     alojamentoNovo.AnimalId = animal.AnimalId;
-
-        //     contextAnimal.Update(alojamentoNovo);
-
-        // }
 
 
     }

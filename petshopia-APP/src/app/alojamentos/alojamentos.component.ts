@@ -44,7 +44,6 @@ export class AlojamentosComponent implements OnInit {
     this.alojamentoService.getAlojamentos().subscribe(
       response => {
         this.alojamentosFiltrados = this.alojamentos = response
-        console.log(response)
       }, error =>{
         console.log(error);
       }

@@ -42,10 +42,6 @@ namespace petshopia_API.Data
                                         .Include(e => e.EstadoSaude);
             animais = animais.AsNoTracking();
 
-            // var animais = await contextPetshop.Animais
-            // .Include(d => d.Dono)
-            // .Include(e => e.EstadoSaude).ToArrayAsync();
-
             return await animais.ToArrayAsync();
         }
 
@@ -57,29 +53,24 @@ namespace petshopia_API.Data
                                         .Where(i => i.AnimalId == id);
 
             animal = animal.AsNoTracking();
-
-            // var animal = await contextPetshop.Animais
-            //                 .Include(d => d.Dono)
-            //                 .Include(s => s.EstadoSaude)
-            //                 .FirstOrDefaultAsync(x => x.AnimalId==id);
             
             return await animal.FirstOrDefaultAsync();
         }
 
-        public async Task<Animal> GetUltimoAnimalInserido(){
-            IQueryable<Animal> idAnimal = contextPetshop.Animais
-                                        .OrderBy(x => x.AnimalId);
 
-            return await idAnimal.AsNoTracking().FirstOrDefaultAsync();
+        public async Task<Animal> GetUltimoAnimalInserido(){
+
+            IQueryable<Animal> animal = contextPetshop.Animais.OrderByDescending(x => x.AnimalId);
+
+            return await animal.AsNoTracking().FirstOrDefaultAsync();
         }
+
+
 
         public async Task<Alojamento[]> GetAlojamentosAsync()
         {
             IQueryable<Alojamento> alojamentos = contextPetshop.Alojamentos
                                         .Include(s => s.EstadoAlojamento);
-
-            // var alojamentos = await contextPetshop.Alojamentos
-            //     .Include(s => s.EstadoAlojamento).ToArrayAsync();
                                 
             alojamentos = alojamentos.AsNoTracking();
             return await alojamentos.ToArrayAsync();
@@ -88,12 +79,8 @@ namespace petshopia_API.Data
         public async Task<Alojamento> GetAlojamentoPorIdAsync(int id)
         {
             IQueryable<Alojamento> alojamento = contextPetshop.Alojamentos
-                                                // .Include(s => s.EstadoAlojamento)
                                                 .Where(i => i.AlojamentoId == id);
 
-            // var alojamento = await contextPetshop.Alojamentos
-            //                     .Include(s => s.EstadoAlojamento)
-            //                     .FirstOrDefaultAsync(x => x.AlojamentoId == id);
             alojamento = alojamento.AsNoTracking();
             return await alojamento.FirstOrDefaultAsync();
         }
@@ -111,13 +98,8 @@ namespace petshopia_API.Data
         public async Task<Alojamento> GetAlojamentoPorAnimalIdAsync(int id)
         {
             IQueryable<Alojamento> alojamento = contextPetshop.Alojamentos
-                                            // .Include(s => s.EstadoAlojamento)
-                                            // .Include(i => i.EstadoAlojamentoId)
                                             .Where(x => x.AnimalId == id);
-            // var alojamento = await contextPetshop.Alojamentos
-            //                     .Include(s => s.EstadoAlojamento)
-            //                     .Include(i => i.EstadoAlojamentoId)
-            //                     .FirstOrDefaultAsync(x => x.AnimalId == id);
+
             alojamento = alojamento.AsNoTracking();
             return await alojamento.FirstOrDefaultAsync();
         }

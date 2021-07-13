@@ -13,6 +13,7 @@ namespace petshopia_API.Data
 
          Task<Animal[]> GetAnimaisAsync();
          Task<Animal> GetAnimalPorIdAsync(int id);
+
          Task<Animal> GetUltimoAnimalInserido();
         //  Task<Animal[]> GetAnimaisPorStatusSaudeAsync(int statusSaude);
         //  Task<Animal[]> GetAnimaisPorDonoAsync(string nomeDono);

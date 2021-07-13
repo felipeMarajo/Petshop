@@ -58,6 +58,7 @@
       <div class="item1" style="background-color: azure;">
         <div>Nome do Pet: {{animal.nome}}</div>
         <div>Motivo da internação: {{animal.motivacaoInternacao}}</div>
+        <div>Estado de saúde Id: {{animal.estadoSaudeId}}</div>
         <div>Estado de saúde: {{animal.estadoSaude.descricao}}</div>
         <div>Ocupando alojamento número: </div>
 
@@ -77,17 +78,6 @@
 </div>
 
 
-<!-- Modal Edição -->
-
-<div>
-  
-  <br>
-  <br>
-  <br>
-</div>
-
-<p>Form Values: {{animalForm.value | json}}</p>
-<p>Form status: {{animalForm.status| json}}</p>
 
 
 
@@ -114,7 +104,7 @@
       
               <mat-form-field appearance="outline" style="width: 45%; margin-left: 2%; margin-right: 2%;">
                 <mat-label>Moditivo da internação</mat-label>
-                <input matInput class="is-invalid" placeholder="Moditivo da internação" formControlName="motivacaoInternacao">
+                <input matInput class="is-invalid" placeholder="Moditivo da internação" formControlName="motivacaoInternacao"> <!-- motivacaoInternacao -->
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
               </mat-form-field>
           </div>   
@@ -146,28 +136,28 @@
             <div style="width: 45%; margin-left: 2%; margin-right: 2%; border: 1px solid black;">
               <h3>Estado de Saúde</h3>
               <div class="custom-control custom-radio" (click)="estadoSaudeMarcado = 1">
-                <input type="radio" name="saude" [value]=1  >
+                <input [checked]="estadoSaudeOriginal==1" type="radio" name="saude" [value]=1  >
                 <label class="custom-control-label" for="customRadio1">Em tratamento</label>
               </div>
               <div class="custom-control custom-radio" (click)="estadoSaudeMarcado = 2">
-                <input type="radio" name="saude" [value]=2 >
+                <input [checked]="estadoSaudeOriginal==2" type="radio" name="saude" [value]=2 >
                 <label class="custom-control-label" for="customRadio2">Recuperando-se</label>
               </div>
               <div class="custom-control custom-radio" (click)="estadoSaudeMarcado = 3" >
-                <input type="radio" name="saude" [value]=3 >
+                <input [checked]="estadoSaudeOriginal==3" type="radio" name="saude" [value]=3 >
                 <label class="custom-control-label" for="customRadio3">Recuperado</label>
               </div>
             </div>
 
             <!-- dropdown com problema -->
-            <!-- <div>
-              <select>
-                <option *ngFor="let item of alojamentosPorStatus" [value]="item">
+             <div style="width: 45%; margin-left: 2%; margin-right: 2%; border: 1px solid black;">
+               <h3>Alojamentos</h3>
+              <select #selectedAlojamento>
+                <option *ngFor="let alojamento of alojamentosPorStatus" [selected]="alojamento.animalId > 0" [value]="alojamento.alojamentoId">
+                  Alojamento {{ alojamento.alojamentoId }}
                 </option>
               </select>
-              
-            </div> -->
-      
+              </div> 
           </div>
           
       
@@ -178,7 +168,7 @@
         <button class="btn btn-secondary" (click)="template.hide()">
           Cancelar
         </button>
-        <button class="btn btn-primary" [disabled]="!animalForm.valid" (click)=salvarAnimais(template)>
+        <button class="btn btn-primary" [disabled]="!animalForm.valid" (click)="salvarAnimais(template, selectedAlojamento.value)">
           Salvar
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Animal } from '../Model/Animal';
@@ -28,10 +28,10 @@ export class AnimalService {
     return this.http.put(`${this.baseUrl}/${animal.animalId}`, animal);
   }
 
-  // atualizaalojamentocomids int idAlojamento, int idAnimal, int idEstado
-  // putAtualizaAlojamentoComIds(idAlojamento: number, idAnimal: number, idEstado: number){
-  //   return this.http.put(`${this.baseUrl}/${animal.animalId}`, animal);
-  // }
+  // atualizaalojamentocomids int idAlojamento, int idAnimal, int idEstado ultimoanimal
+  putAtualizarAlojamento(){
+    return this.http.put(`${this.baseUrl}/ultimoanimal`, {});
+  }
 
   deleteAnimal(animalId: number){
     return this.http.delete(`${this.baseUrl}/${animalId}`);

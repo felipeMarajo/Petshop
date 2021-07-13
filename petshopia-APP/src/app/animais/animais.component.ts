@@ -26,6 +26,8 @@ export class AnimaisComponent implements OnInit {
 
   modoDeSalvamento: string = '';
   estadoSaudeMarcado: number = 0;
+  estadoSaudeOriginal: number = 0;
+  idAnimalSelecionado: number = -1;
 
   constructor(
     private animalService: AnimalService,
@@ -37,7 +39,6 @@ export class AnimaisComponent implements OnInit {
   ngOnInit() {
     this.validation();
     this.getAnimais();
-    this.getAlojamentosLivresEDoAnimal(3);
   }
 
   get filtroAnimal(): string {
@@ -66,6 +67,7 @@ export class AnimaisComponent implements OnInit {
 
   validation(){
     this.animalForm = this.fb.group({
+      animalId: [''],
       nome: ['',  Validators.required],
       motivacaoInternacao: ['', Validators.required],
       estadoSaudeId: [''],
@@ -84,41 +86,53 @@ export class AnimaisComponent implements OnInit {
 
   // Funções de CRUD
 
-  salvarAnimais(template: any){
+  salvarAnimais(template: any, alojamentoSelecionado: any){
     if(this.animalForm.valid){
       if(this.modoDeSalvamento === 'post'){
         this.animal = Object.assign({}, this.animalForm.value);
         this.animal.estadoSaudeId = this.estadoSaudeMarcado;
+        this.animal.idAlojamento = parseInt(alojamentoSelecionado);
 
+        delete this.animal.animalId;
         delete this.animal.donoId;
         delete this.animal.dono.donoId;
+        
+        this.animalService.postAnimal(this.animal).subscribe(
+          (novoAnimal) => {
+            console.log(novoAnimal);
+            this.animalService.putAtualizarAlojamento().subscribe(
+              () => {
 
-        console.log(this.estadoSaudeMarcado);
-        console.log(this.animal);
-        // this.animalService.postAnimal(this.animal).subscribe(
-        //   (novoAnimal) => {
-        //     console.log(novoAnimal);
-        //     template.hide();
-        //     this.getAnimais();
-        //   }, error => {
-        //     console.log(error);
-        //   }
-        // );
+              }, error => {
+                console.log(error);
+              }
+            );
+            template.hide();
+            this.getAnimais();
+          }, error => {
+            console.log(error);
+          }
+        );
       }else{
         this.animal = Object.assign({}, this.animalForm.value);
         this.animal.estadoSaudeId = this.estadoSaudeMarcado;
-        // delete this.animal.estadoSaude;
-        console.log(this.estadoSaudeMarcado);
-        console.log(this.animal);
-        // this.animalService.putAnimal(this.animal).subscribe(
-        //   (novoAnimal) => {
-        //     console.log(novoAnimal);
-        //     template.hide();
-        //     this.getAnimais();
-        //   }, error => {
-        //     console.log(error);
-        //   }
-        // );
+        this.animal.idAlojamento = parseInt(alojamentoSelecionado);
+
+        if(this.estadoSaudeOriginal != this.estadoSaudeMarcado && this.estadoSaudeMarcado != 0){
+          this.animal.estadoSaudeId = this.estadoSaudeMarcado;
+        }else{
+          this.animal.estadoSaudeId = this.estadoSaudeOriginal;
+        }
+        
+        this.animalService.putAnimal(this.animal).subscribe(
+          (novoAnimal) => {
+            console.log(novoAnimal);
+            template.hide();
+            this.getAnimais();
+          }, error => {
+            console.log(error);
+          }
+        );
       }
       
     }
@@ -127,6 +141,7 @@ export class AnimaisComponent implements OnInit {
   novoAnimal(template: any){
     this.modoDeSalvamento = 'post';
     this.openModal(template);
+    this.getAlojamentosLivresEDoAnimal(-1); // Busca por animal de id -1 ou alojamento livre
   }
 
   editarAnimal(animal: any, template: any){
@@ -135,15 +150,11 @@ export class AnimaisComponent implements OnInit {
     this.modoDeSalvamento = 'put';
     this.openModal(template);
     this.animal = animal;
+    this.idAnimalSelecionado = this.animal.animalId;
+    this.estadoSaudeOriginal = this.animal.estadoSaudeId;
+    this.getAlojamentosLivresEDoAnimal(this.animal.animalId);
     this.animalForm.patchValue(animal);
 
-    // this.limparForm(template);
-    // this.alojamento = animal;
-
-    // console.log(this.animal);
-    // this.animalForm.patchValue(animal);
-    // this.alojamentoSelecionado = this.animalForm.value.alojamentoId;
-    // console.log(this.alojamentoSelecionado)
   }
 
   excluirAnimal(animal: any, template: any) {
@@ -174,7 +185,6 @@ export class AnimaisComponent implements OnInit {
     this.animalService.getAnimal().subscribe(
       (response) => {
         this.animaisFiltrados = this.animais = response
-        console.log(response)
       }, error =>{
         console.log(error);
       }
@@ -185,7 +195,6 @@ export class AnimaisComponent implements OnInit {
     this.alojamentoService.getAlojamentosPorStatusEAnimal(idAnimal).subscribe(
       (response) => {
         this.alojamentosPorStatus = response;
-        console.log(this.alojamentosPorStatus);
       }, error =>{
         console.log(error);
       }

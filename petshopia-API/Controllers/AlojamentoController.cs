@@ -139,8 +139,6 @@ namespace petshopia_API.Controllers
         // public async Task<IActionResult> delete(int alojamentoId, Alojamento alojamento){
 
         // }
-
-
         
     }
 }
