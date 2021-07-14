@@ -1,11 +1,11 @@
-#Petshop IA
+# Petshop IA
 
 Para executar o projeto é necessário:
-    - .Net Core 3.1
+    .Net Core 3.1
     - Angular CLI
     - Node.js
 
-##Executando o Projeto
+## Executando o Projeto
 
 Para executar a API, acesse a pasta petshopia-API utilizando o terminal, e então execute um dos comandos abaixo.
 
