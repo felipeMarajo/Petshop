@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "petshopia-API", "petshopia-API\petshopia-API.csproj", "{35F18C57-A2A1-4258-B626-6D0AE627808F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petshopia-Teste", "petshopia-Teste\petshopia-Teste.csproj", "{16E60D3A-65D1-4C69-93DB-C80D630B34F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|x64.Build.0 = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Debug|x86.Build.0 = Debug|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|x64.ActiveCfg = Release|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|x64.Build.0 = Release|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|x86.ActiveCfg = Release|Any CPU
+		{35F18C57-A2A1-4258-B626-6D0AE627808F}.Release|x86.Build.0 = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|x64.Build.0 = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Debug|x86.Build.0 = Debug|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|x64.Build.0 = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{16E60D3A-65D1-4C69-93DB-C80D630B34F6}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BA242C9-D9FD-4A78-B6C9-A822DAF37271}
+	EndGlobalSection
+EndGlobal

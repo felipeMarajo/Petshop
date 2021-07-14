@@ -2,7 +2,7 @@ namespace petshopia_API.Model
 {
     public class Animal
     {
-        protected Animal(){}
+        public Animal(){}
         public Animal(int animalId, string nome, Dono dono, string motivacaoInternacao, 
                         int estadoSaudeId, string foto, int idAlojamento)
         {

@@ -28,6 +28,8 @@ export class AnimaisComponent implements OnInit {
   estadoSaudeMarcado: number = 0;
   estadoSaudeOriginal: number = 0;
   idAnimalSelecionado: number = -1;
+  inserindoAnimal: boolean = false;
+  existeAlojamentoLivre: boolean = false;
 
   constructor(
     private animalService: AnimalService,
@@ -90,7 +92,8 @@ export class AnimaisComponent implements OnInit {
     if(this.animalForm.valid){
       if(this.modoDeSalvamento === 'post'){
         this.animal = Object.assign({}, this.animalForm.value);
-        this.animal.estadoSaudeId = this.estadoSaudeMarcado;
+
+        (this.estadoSaudeMarcado > 1) ? this.animal.estadoSaudeId = this.estadoSaudeMarcado : this.animal.estadoSaudeId = 1;
         this.animal.idAlojamento = parseInt(alojamentoSelecionado);
 
         delete this.animal.animalId;
@@ -123,7 +126,7 @@ export class AnimaisComponent implements OnInit {
         }else{
           this.animal.estadoSaudeId = this.estadoSaudeOriginal;
         }
-        
+
         this.animalService.putAnimal(this.animal).subscribe(
           (novoAnimal) => {
             console.log(novoAnimal);
@@ -140,12 +143,17 @@ export class AnimaisComponent implements OnInit {
 
   novoAnimal(template: any){
     this.modoDeSalvamento = 'post';
+    this.inserindoAnimal = true;
+    // (this.alojamentosPorStatus.length() > 0) ? this.existeAlojamentoLivre = true : this.existeAlojamentoLivre = false;
+
     this.openModal(template);
     this.getAlojamentosLivresEDoAnimal(-1); // Busca por animal de id -1 ou alojamento livre
   }
 
   editarAnimal(animal: any, template: any){
     this.clickButton = true;
+    this.inserindoAnimal = false;
+    this.existeAlojamentoLivre = true;
 
     this.modoDeSalvamento = 'put';
     this.openModal(template);
@@ -195,6 +203,7 @@ export class AnimaisComponent implements OnInit {
     this.alojamentoService.getAlojamentosPorStatusEAnimal(idAnimal).subscribe(
       (response) => {
         this.alojamentosPorStatus = response;
+        console.log(response);
       }, error =>{
         console.log(error);
       }

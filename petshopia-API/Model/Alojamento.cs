@@ -2,7 +2,7 @@ namespace petshopia_API.Model
 {
     public class Alojamento
     {
-        protected Alojamento(){}
+        public Alojamento(){}
         public Alojamento(int alojamentoId, int? animalId, int estadoAlojamentoId)
         {
             this.AlojamentoId = alojamentoId;
